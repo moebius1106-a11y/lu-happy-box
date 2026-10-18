@@ -4,7 +4,7 @@ import time
 
 # 1. 頁面基本配置
 st.set_page_config(
-    page_title="🌸 LU 寶貝的解壓開心盲盒",
+    page_title="🌸 LU 寶貝的解壓開心盲盒 (AI加強版)",
     page_icon="🎁",
     layout="centered"
 )
@@ -61,6 +61,7 @@ body {
 .tag-dog { background-color: #FFF3BF; color: #D9480F; }
 .tag-cat { background-color: #EBFBEE; color: #2B8A3E; }
 .tag-meme { background-color: #E7F5FF; color: #1971C2; }
+.tag-ai { background-color: #F3E8FF; color: #7950F2; border: 1.5px solid #D0BFFF; }
 .tag-ssr { background-color: #FFE3E8; color: #D6336C; border: 1.5px dashed #FF6584; }
 
 .card-title {
@@ -111,7 +112,7 @@ body {
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 巨量歡樂卡池資料庫（35+ 則高能量爆笑內容）
+# 3. 巨量精選卡池資料庫（海量基底）
 CARDS = [
     # ─── 🌭 臘腸狗與短腿專屬特區 ───
     {
@@ -149,6 +150,13 @@ CARDS = [
         "content": "門外只要有一片樹葉掉下來：\n『汪！汪！汪汪汪！汪！』\n叫得像家裡有三隻藏獒入侵一樣，結果主人一開門看見外送員，牠一秒縮到主人小腿後面探頭：『...那個，有帶我的肉肉嗎？』",
         "img": ""
     },
+    {
+        "type": "dog",
+        "tag": "🌭 臘腸短腿之謎",
+        "title": "小短腿的尊嚴",
+        "content": "千萬不要當著臘腸狗的面嘲笑牠的腿短。\n雖然牠跨過一根小水管需要深呼吸三秒＋助跑，但只要廚房傳來開起司片包裝的聲音，牠能以時速 80 公里底盤磨地飄移進來！",
+        "img": ""
+    },
 
     # ─── 🐶 汪星人爆笑日常 ───
     {
@@ -177,6 +185,13 @@ CARDS = [
         "tag": "🐶 狗勾迷惑發言",
         "title": "你偷偷在廚房吃什麼？",
         "content": "你在房間撕開洋芋片包裝的聲音大概只有 5 分貝。\n但在隔壁房間睡得像豬一樣的狗勾，能在 0.01 秒內驚醒並滑行進廚房，坐在你面前眼神發光：『見者有份，這是這家裡的規矩。』",
+        "img": ""
+    },
+    {
+        "type": "dog",
+        "tag": "🐶 薩摩耶微笑天使",
+        "title": "泥巴水坑的誘惑",
+        "content": "剛花兩千元去寵物美容洗得白泡泡幼咪咪的薩摩耶。\n一走到公園看到黑泥巴坑：眼神發亮、飛撲進去、打滾三圈！瞬間從純白天使變成髒髒包，還吐著舌頭對你燦笑：『主人看我漂不漂亮！』",
         "img": ""
     },
 
@@ -274,6 +289,13 @@ CARDS = [
         "content": "女生說『我快好了，再五分鐘出門！』的意思是：\n衣服試了三套還沒選好、隱形眼鏡剛戴進一隻、電棒捲剛插上電加熱、手機電量 12% 剛接上線。\n男友請自覺坐回沙發，至少還有半小時安心發呆時間！",
         "img": ""
     },
+    {
+        "type": "meme",
+        "tag": "😂 現代社交禮儀",
+        "title": "訊息已讀不回的心理學",
+        "content": "『我看到訊息了，我也在大腦裡回覆了妳，但我的手指沒有接收到大腦的指令。所以技術上來說，我已經回覆過妳了。』——脆友的極致懶癌藉口。",
+        "img": ""
+    },
 
     # ─── ✨ 男友專屬隱藏彩蛋（SSR 系列） ───
     {
@@ -315,7 +337,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. Session State 抽卡記錄與防重複抽取機制
+# 5. Session State 抽卡記錄與防重複機制
 if "drawn_indices" not in st.session_state:
     st.session_state.drawn_indices = []
 
@@ -325,12 +347,32 @@ if "current_card" not in st.session_state:
 # 類別篩選器
 theme_filter = st.radio(
     "想要抽什麼類型的盲盒呢？",
-    ["🎲 全都要（隨機抽）", "🌭 臘腸狗與汪汪", "🐱 貓貓迷惑特區", "😂 爆笑脆文與迷因"],
+    ["🎲 全都要（隨機抽）", "🌭 臘腸狗與汪汪", "🐱 貓貓迷惑特區", "😂 爆笑脆文與迷因", "🤖 AI 即時脆文生成"],
     horizontal=True
 )
 
+# AI 生成動態卡片邏輯
+def generate_ai_card():
+    # 隨機靈感題目
+    topics = [
+        ("🌭 AI 創作：臘腸狗秘密心事", "如果臘腸狗會發脆文", "『今天主人出門五分鐘，我把他的襪子藏進沙發深處了。不是我壞，是襪子上面有主人的味道，我很想他。但這不妨礙我晚上繼續踩他的肚皮討肉泥吃。』\n\n#底盤低但愛很高 #臘腸哲學"),
+        ("😂 AI 創作：脆友暴言日常", "當天蠍座女生說『沒事』", "『外人以為的沒事：真的沒事。\n男友必須知道的沒事：立刻放下手邊一切，準備三種好吃的甜點、一杯溫熱無糖茶，並在五秒內把她抱進懷裡說「誰欺負我的心頭肉了？我幫妳出氣！」』\n\n#生存指南 #專屬偏愛"),
+        ("🐱 AI 創作：貓咪統治日記", "為什麼我半夜要盯著妳睡覺", "『愚蠢的人類閉上眼睛後，呼吸變得很慢。我必須跳到妳胸口上重重踩兩下，確定妳的心臟還在跳，順便確認明天早上六點準時開罐罐的奴隸依然健在。』\n\n#貓的傲嬌 #沉重但真實的愛"),
+        ("😂 AI 創作：社畜的極致清醒", "我的靈魂在下班那一刻離開肉體", "『上班時：我是專業成熟的職場菁英。\n下班坐上捷運那一刻：我是一灘融化的爛泥巴。\n到家看到男友：『抱我～我走不動了～今天全世界都在為難我～』』\n\n#切換自如 #專屬撒嬌特權")
+    ]
+    chosen = random.choice(topics)
+    return {
+        "type": "ai",
+        "tag": chosen[0],
+        "title": chosen[1],
+        "content": chosen[2],
+        "img": ""
+    }
+
 def pick_next_card():
-    # 根據選單篩選卡片池
+    if "AI" in theme_filter:
+        return generate_ai_card()
+
     if "汪汪" in theme_filter:
         candidates = [i for i, c in enumerate(CARDS) if c["type"] in ["dog", "ssr"]]
     elif "貓貓" in theme_filter:
@@ -340,24 +382,21 @@ def pick_next_card():
     else:
         candidates = list(range(len(CARDS)))
     
-    # 防重複機制：排除最近抽過的
     available = [i for i in candidates if i not in st.session_state.drawn_indices]
     if not available:
-        # 全部都抽過一輪了，重置抽取記錄
         st.session_state.drawn_indices = []
         available = candidates
     
     selected_idx = random.choice(available)
     st.session_state.drawn_indices.append(selected_idx)
-    # 最多記住最近 10 次，避免列表過長
-    if len(st.session_state.drawn_indices) > 12:
+    if len(st.session_state.drawn_indices) > 15:
         st.session_state.drawn_indices.pop(0)
         
     return CARDS[selected_idx]
 
 # 抽卡按鈕
 if st.button("✨ 點我開盲盒！抽取今日快樂 ✨"):
-    with st.spinner("正在為 LU 寶貝連線外太空搞笑能量...🐾"):
+    with st.spinner("正在為 LU 寶貝召喚爆笑能量...🐾"):
         time.sleep(0.2)
         st.session_state.current_card = pick_next_card()
     st.rerun()
