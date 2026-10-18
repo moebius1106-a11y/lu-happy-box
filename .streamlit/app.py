@@ -2,36 +2,40 @@ import streamlit as st
 import random
 import time
 
-# 1. 頁面基本配置
+# 1. 頁面基本配置（針對 iPhone 視窗最佳化）
 st.set_page_config(
-    page_title="🌸 LU 寶貝的解壓開心盲盒 (AI加強版)",
+    page_title="🌸 LU 寶貝的解壓開心盲盒",
     page_icon="🎁",
     layout="centered"
 )
 
-# 2. 專屬粉嫩歡樂 UI 樣式
+# 2. iPhone (iOS Safari & LINE WebView) 專屬加固 CSS
 st.markdown("""
 <style>
+/* 徹底鎖定 iOS 淺色渲染，防止 iPhone 深色模式自動反轉顏色 */
 :root {
     color-scheme: light !important;
+    -webkit-color-scheme: light !important;
 }
+
+/* 適配 iPhone 頂部動態島 / 瀏海與底部安全區域 (Home Bar) */
 .block-container {
-    padding-top: 1rem !important;
-    padding-bottom: 2.5rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-top: max(0.8rem, env(safe-area-inset-top)) !important;
+    padding-bottom: max(3rem, env(safe-area-inset-bottom)) !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
 }
-#MainMenu, footer, header {
-    visibility: hidden !important;
-    display: none !important;
-}
-div[data-testid="stDecoration"],
-[data-testid="manage-app-button"] {
+
+/* 隱藏官方雜項與浮水印 */
+#MainMenu, footer, header, [data-testid="manage-app-button"], div[data-testid="stDecoration"] {
     display: none !important;
     visibility: hidden !important;
 }
 
+/* iOS 專屬字體平滑與觸控反饋 */
 body {
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent !important; /* 消除 iPhone 點擊灰色陰影 */
     font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Helvetica Neue", sans-serif;
     color: #4A3B40 !important;
     background-color: #FFF5F7 !important;
@@ -40,74 +44,92 @@ body {
     background: linear-gradient(180deg, #FFF0F5 0%, #FFFFFF 100%) !important;
 }
 
-/* 盲盒卡片效果 */
+/* 盲盒卡片效果（針對 iOS WebKit 陰影渲染加速） */
 .card-box {
     background: #FFFFFF !important;
-    padding: 22px !important;
-    border-radius: 24px !important;
-    box-shadow: 0 8px 25px rgba(255, 143, 163, 0.25) !important;
-    border: 2px solid #FFE3E8 !important;
+    padding: 20px 18px !important;
+    border-radius: 22px !important;
+    box-shadow: 0 8px 24px rgba(255, 143, 163, 0.22) !important;
+    border: 1.5px solid #FFE3E8 !important;
     margin-bottom: 16px !important;
     text-align: center;
+    -webkit-transform: translateZ(0); /* 開啟硬體加速，防止滑動卡頓 */
 }
+
 .card-tag {
     display: inline-block;
-    padding: 5px 16px;
-    border-radius: 20px;
-    font-size: 0.88rem;
+    padding: 4px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 .tag-dog { background-color: #FFF3BF; color: #D9480F; }
 .tag-cat { background-color: #EBFBEE; color: #2B8A3E; }
 .tag-meme { background-color: #E7F5FF; color: #1971C2; }
-.tag-ai { background-color: #F3E8FF; color: #7950F2; border: 1.5px solid #D0BFFF; }
+.tag-ai { background-color: #F3E8FF; color: #7950F2; border: 1px solid #D0BFFF; }
 .tag-ssr { background-color: #FFE3E8; color: #D6336C; border: 1.5px dashed #FF6584; }
 
 .card-title {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 800;
     color: #D6336C;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 .card-content {
-    font-size: 1.05rem;
-    color: #4A3B40;
+    font-size: 1rem;
+    color: #4A3B40 !important;
     line-height: 1.65;
-    margin: 12px 0;
+    margin: 10px 0;
     white-space: pre-wrap;
     text-align: left;
     background: #FFF9FA;
-    padding: 14px 16px;
-    border-radius: 16px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #FFEBEF;
 }
 
-/* 抽卡主按鈕 */
+/* 抽卡按鈕：加入 iOS 原生 Q 彈點擊反饋 */
 .stButton>button {
     background: linear-gradient(135deg, #FF6584 0%, #FF8FA3 100%) !important;
     color: #FFFFFF !important;
-    font-size: 1.15rem !important;
+    font-size: 1.12rem !important;
     font-weight: 800 !important;
-    border-radius: 25px !important;
+    border-radius: 24px !important;
     border: none !important;
-    padding: 14px 28px !important;
+    padding: 13px 20px !important;
     box-shadow: 0 6px 18px rgba(255, 101, 132, 0.35) !important;
     width: 100% !important;
+    touch-action: manipulation; /* 禁止 iPhone 雙擊縮放延遲 */
+    transition: transform 0.08s ease;
+}
+.stButton>button:active {
+    transform: scale(0.96) !important;
 }
 
-/* 外部跳轉按鈕 */
+/* 單選按鈕適配 iOS */
+div[role="radiogroup"] label {
+    color: #5C2D3B !important;
+    font-size: 0.9rem !important;
+}
+
+/* 脆（Threads）按鈕 */
 .threads-btn {
     display: block;
     background: #000000;
     color: #FFFFFF !important;
     text-align: center;
-    padding: 12px 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 18px;
     font-weight: 700;
     text-decoration: none;
     margin-top: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
+    touch-action: manipulation;
+}
+.threads-btn:active {
+    opacity: 0.85;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -187,13 +209,6 @@ CARDS = [
         "content": "你在房間撕開洋芋片包裝的聲音大概只有 5 分貝。\n但在隔壁房間睡得像豬一樣的狗勾，能在 0.01 秒內驚醒並滑行進廚房，坐在你面前眼神發光：『見者有份，這是這家裡的規矩。』",
         "img": ""
     },
-    {
-        "type": "dog",
-        "tag": "🐶 薩摩耶微笑天使",
-        "title": "泥巴水坑的誘惑",
-        "content": "剛花兩千元去寵物美容洗得白泡泡幼咪咪的薩摩耶。\n一走到公園看到黑泥巴坑：眼神發亮、飛撲進去、打滾三圈！瞬間從純白天使變成髒髒包，還吐著舌頭對你燦笑：『主人看我漂不漂亮！』",
-        "img": ""
-    },
 
     # ─── 🐱 傲嬌主子迷惑行為 ───
     {
@@ -222,13 +237,6 @@ CARDS = [
         "tag": "🐱 監視狂貓",
         "title": "衛生間的專屬警衛",
         "content": "只要你進廁所關上門，門縫底下立刻會出現一隻毛茸茸的小白爪在那裡掏啊掏：\n『你是不是在裡面背著我偷偷吃好料？快開門！不要逼我一直叫！』",
-        "img": ""
-    },
-    {
-        "type": "cat",
-        "tag": "🐱 貓貓的惡趣味",
-        "title": "桌緣推土機",
-        "content": "看著桌上的水杯。\n看著你。\n再伸出小爪爪把水杯往桌邊挪動 1 公分。\n看著你崩潰喊『不要！』，牠眼睛眨都不眨，一巴掌把水杯推下去：『我就喜歡看重力加速度的樣子。』",
         "img": ""
     },
 
@@ -270,30 +278,9 @@ CARDS = [
     },
     {
         "type": "meme",
-        "tag": "😂 脆上爆笑對話",
-        "title": "理智與食慾的拉扯",
-        "content": "理智：『晚上十點後吃宵夜會胖，而且對腸胃不好。』\n肚子：『可是鹽酥雞是熱的，熱的食物能溫暖心靈，心靈健康人就健康。』\n結論：『老闆，鹹酥雞一份魷魚一份，九層塔蒜頭多一點！』",
-        "img": ""
-    },
-    {
-        "type": "meme",
-        "tag": "😂 職場人間清醒",
-        "title": "工作的動力來源",
-        "content": "『我熱愛工作嗎？我不熱愛。但我熱愛花錢、熱愛吃好料、熱愛網購包裹到貨時拆箱的那一聲清脆膠帶聲。所以，今天也是為了包裹努力搬磚的一天！』",
-        "img": ""
-    },
-    {
-        "type": "meme",
         "tag": "😂 脆友神吐槽",
         "title": "出門前的儀式感",
         "content": "女生說『我快好了，再五分鐘出門！』的意思是：\n衣服試了三套還沒選好、隱形眼鏡剛戴進一隻、電棒捲剛插上電加熱、手機電量 12% 剛接上線。\n男友請自覺坐回沙發，至少還有半小時安心發呆時間！",
-        "img": ""
-    },
-    {
-        "type": "meme",
-        "tag": "😂 現代社交禮儀",
-        "title": "訊息已讀不回的心理學",
-        "content": "『我看到訊息了，我也在大腦裡回覆了妳，但我的手指沒有接收到大腦的指令。所以技術上來說，我已經回覆過妳了。』——脆友的極致懶癌藉口。",
         "img": ""
     },
 
@@ -353,7 +340,6 @@ theme_filter = st.radio(
 
 # AI 生成動態卡片邏輯
 def generate_ai_card():
-    # 隨機靈感題目
     topics = [
         ("🌭 AI 創作：臘腸狗秘密心事", "如果臘腸狗會發脆文", "『今天主人出門五分鐘，我把他的襪子藏進沙發深處了。不是我壞，是襪子上面有主人的味道，我很想他。但這不妨礙我晚上繼續踩他的肚皮討肉泥吃。』\n\n#底盤低但愛很高 #臘腸哲學"),
         ("😂 AI 創作：脆友暴言日常", "當天蠍座女生說『沒事』", "『外人以為的沒事：真的沒事。\n男友必須知道的沒事：立刻放下手邊一切，準備三種好吃的甜點、一杯溫熱無糖茶，並在五秒內把她抱進懷裡說「誰欺負我的心頭肉了？我幫妳出氣！」』\n\n#生存指南 #專屬偏愛"),
@@ -397,7 +383,7 @@ def pick_next_card():
 # 抽卡按鈕
 if st.button("✨ 點我開盲盒！抽取今日快樂 ✨"):
     with st.spinner("正在為 LU 寶貝召喚爆笑能量...🐾"):
-        time.sleep(0.2)
+        time.sleep(0.15)
         st.session_state.current_card = pick_next_card()
     st.rerun()
 
