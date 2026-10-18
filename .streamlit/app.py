@@ -47,14 +47,14 @@ body {
     border-radius: 24px !important;
     box-shadow: 0 8px 25px rgba(255, 143, 163, 0.25) !important;
     border: 2px solid #FFE3E8 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 16px !important;
     text-align: center;
 }
 .card-tag {
     display: inline-block;
-    padding: 4px 14px;
+    padding: 5px 16px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 700;
     margin-bottom: 12px;
 }
@@ -64,17 +64,21 @@ body {
 .tag-ssr { background-color: #FFE3E8; color: #D6336C; border: 1.5px dashed #FF6584; }
 
 .card-title {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: #D6336C;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .card-content {
     font-size: 1.05rem;
     color: #4A3B40;
-    line-height: 1.6;
-    margin: 14px 0;
+    line-height: 1.65;
+    margin: 12px 0;
     white-space: pre-wrap;
+    text-align: left;
+    background: #FFF9FA;
+    padding: 14px 16px;
+    border-radius: 16px;
 }
 
 /* 抽卡主按鈕 */
@@ -88,10 +92,6 @@ body {
     padding: 14px 28px !important;
     box-shadow: 0 6px 18px rgba(255, 101, 132, 0.35) !important;
     width: 100% !important;
-    transition: transform 0.1s ease-in-out !important;
-}
-.stButton>button:active {
-    transform: scale(0.98) !important;
 }
 
 /* 外部跳轉按鈕 */
@@ -111,73 +111,197 @@ body {
 </style>
 """, unsafe_allow_html=True)
 
-# 3. 歡樂解壓卡池資料庫（包含臘腸狗、吸貓、爆笑脆文、SSR男友兌換券）
+# 3. 巨量歡樂卡池資料庫（35+ 則高能量爆笑內容）
 CARDS = [
-    # 臘腸狗與汪星人專區
+    # ─── 🌭 臘腸狗與短腿專屬特區 ───
     {
         "type": "dog",
-        "tag": "🌭 臘腸狗呆萌日常",
+        "tag": "🌭 臘腸狗日常",
         "title": "世界上最遙遠的距離",
-        "content": "臘腸狗的日常哲學：\n『我的身體已經在客廳沙發了，但我的後腿還在廚房門口。』\n底盤太低，每次想跳上沙發都像在發射火箭，最後只能發出委屈的嗚嗚聲等抱抱！",
+        "content": "臘腸狗的日常哲學：\n『我的上半身已經在客廳沙發了，但我的後腿還在廚房門口。』\n底盤太低，每次想跳上沙發都像在發射火箭，後腿蹬了半天還在原地，最後只能發出委屈的嗚嗚聲等抱抱！",
         "img": "https://images.unsplash.com/photo-1612536057832-2ff7ead58194?w=600&auto=format&fit=crop&q=80"
     },
     {
         "type": "dog",
-        "tag": "🌭 臘腸狗迷惑行為",
-        "title": "誰准你看我的小短腿？",
-        "content": "散步十分鐘，肚皮擦地五分鐘。\n遇到小水坑直接變成水陸兩棲戰車。\n回家第一件事：理所當然躺平，用小短腿朝天討摸摸～🐾",
+        "tag": "🌭 臘腸狗行為學",
+        "title": "被窩裡的探頭熱狗",
+        "content": "天冷時的臘腸狗：\n整條鑽進被窩只露出一顆黑鼻頭呼吸。\n你想拉開被子？牠會用整條長身軀死死夾住床墊，喉嚨發出呼嚕呼嚕的護被警告：『誰都別想叫本熱狗起床！』",
         "img": "https://images.unsplash.com/photo-1597633425046-08f5110420b5?w=600&auto=format&fit=crop&q=80"
     },
     {
         "type": "dog",
-        "tag": "🐶 汪汪暖心充電",
-        "title": "小狗有什麼心事呢？",
-        "content": "小狗的世界真的很簡單：\n你出門五分鐘，牠覺得你離開了一萬年；\n你回到家那一秒，牠尾巴搖到像螺旋槳快要起飛！今天也要被小狗純粹的愛治癒喔～",
+        "tag": "🌭 臘腸狗視角",
+        "title": "下雨天最大的敵人",
+        "content": "別的狗狗下雨天是腳濕掉。\n臘腸狗下雨天出門散步五分鐘：肚皮洗地、胸毛泡水，直接從陸生動物變成水陸兩棲戰車！回家洗澡一臉生無可戀🐾",
+        "img": ""
+    },
+    {
+        "type": "dog",
+        "tag": "🌭 臘腸狗日常",
+        "title": "長條型生物的霸道佔位",
+        "content": "一張雙人床明明很大。\n但只要一條臘腸狗往中間橫著一躺，整張床瞬間只剩下邊緣 10 公分給人類睡。\n而且千萬別試圖推牠，牠會像焊死在床上一樣重！",
+        "img": ""
+    },
+    {
+        "type": "dog",
+        "tag": "🌭 臘腸狗警報器",
+        "title": "身體雖小，肺活量超大",
+        "content": "門外只要有一片樹葉掉下來：\n『汪！汪！汪汪汪！汪！』\n叫得像家裡有三隻藏獒入侵一樣，結果主人一開門看見外送員，牠一秒縮到主人小腿後面探頭：『...那個，有帶我的肉肉嗎？』",
+        "img": ""
+    },
+
+    # ─── 🐶 汪星人爆笑日常 ───
+    {
+        "type": "dog",
+        "tag": "🐶 柴犬頑固現場",
+        "title": "散步終點站：躺平",
+        "content": "走到了公園十字路口，柴柴突然決定：『我今天就走到這裡了。』\n脖子直接縮成雙下巴麻糬，四隻腳像塗了強力膠焊死在柏油路上，人類只能尷尬地在路人圍觀下把一整坨肉抱回家。",
         "img": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=600&auto=format&fit=crop&q=80"
     },
-    # 貓貓迷惑行為專區
+    {
+        "type": "dog",
+        "tag": "🐶 黃金獵犬日常",
+        "title": "世界上沒有壞心眼的小狗",
+        "content": "把拖鞋咬爛了，被主人抓包時：\n耳朵向後貼成海豹、眼睛瞇成一條線，一邊假笑一邊用毛茸茸的大爪子搭在你手上按一按：『別生氣嘛～拖鞋是自己裂開的，我只是幫妳檢查材質！』",
+        "img": ""
+    },
+    {
+        "type": "dog",
+        "tag": "🐶 柯基短腿大隊",
+        "title": "樓梯是柯基永遠的痛",
+        "content": "遇到三階以上的樓梯：\n大腦：『衝啊！』\n小短腿：『撲騰撲騰撲騰（懸空抓空氣）』。\n最後屁屁像顆吐司麵包一扭一扭地等著人類連狗帶屁股提上去～",
+        "img": ""
+    },
+    {
+        "type": "dog",
+        "tag": "🐶 狗勾迷惑發言",
+        "title": "你偷偷在廚房吃什麼？",
+        "content": "你在房間撕開洋芋片包裝的聲音大概只有 5 分貝。\n但在隔壁房間睡得像豬一樣的狗勾，能在 0.01 秒內驚醒並滑行進廚房，坐在你面前眼神發光：『見者有份，這是這家裡的規矩。』",
+        "img": ""
+    },
+
+    # ─── 🐱 傲嬌主子迷惑行為 ───
     {
         "type": "cat",
-        "tag": "🐱 主子迷惑行為",
-        "title": "貓咪的液體物理學",
-        "content": "買了 1500 元的豪華貓窩 ❌\n裝貓窩的免錢爛紙箱 ⭕\n『人類，別用你狹隘的審美來定義我的尊貴城堡。』",
+        "tag": "🐱 貓咪物理學",
+        "title": "昂貴貓窩 vs 破紙箱",
+        "content": "人類花了 1800 買了北歐羊毛保暖豪華貓窩 ❌\n快遞送來的沾滿灰塵破紙箱 ⭕\n貓咪：『愚蠢的人類，別用你俗氣的審美來衡量我尊貴的紙箱城堡。』",
         "img": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80"
     },
     {
         "type": "cat",
-        "tag": "🐱 傲嬌主子日常",
+        "tag": "🐱 貓界霸王條款",
         "title": "可以摸，但只能摸三下",
-        "content": "第一下：好舒服呼嚕嚕～\n第二下：主子恩賜你摸。\n第三下：一口咬下去！\n『摸夠了沒？誰准你摸第四下的！』（然後一秒後又蹭過來討罐罐）",
+        "content": "第一下：呼嚕呼嚕好舒服～\n第二下：本宮准你摸。\n第三下：一口咬住人類的手！\n『大膽！誰准你摸第四下的！』（咬完兩秒後又用頭蹭你的手心討肉泥）",
         "img": "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&auto=format&fit=crop&q=80"
     },
-    # 爆笑脆文與生活廢話迷因
+    {
+        "type": "cat",
+        "tag": "🐱 半夜迷惑跑酷",
+        "title": "凌晨三點的奧林匹克運動會",
+        "content": "白天：睡得像一灘融化在地上的死水，怎麼戳都沒反應。\n凌晨 3:15：突然在大腦連線到外星信號，從客廳直線衝刺飛上衣櫃，再踩著人類的肚子起跳！『起床看我奔馳，人類！』",
+        "img": ""
+    },
+    {
+        "type": "cat",
+        "tag": "🐱 監視狂貓",
+        "title": "衛生間的專屬警衛",
+        "content": "只要你進廁所關上門，門縫底下立刻會出現一隻毛茸茸的小白爪在那裡掏啊掏：\n『你是不是在裡面背著我偷偷吃好料？快開門！不要逼我一直叫！』",
+        "img": ""
+    },
+    {
+        "type": "cat",
+        "tag": "🐱 貓貓的惡趣味",
+        "title": "桌緣推土機",
+        "content": "看著桌上的水杯。\n看著你。\n再伸出小爪爪把水杯往桌邊挪動 1 公分。\n看著你崩潰喊『不要！』，牠眼睛眨都不眨，一巴掌把水杯推下去：『我就喜歡看重力加速度的樣子。』",
+        "img": ""
+    },
+
+    # ─── 😂 脆（Threads）爆笑迷因與共鳴廢文 ───
     {
         "type": "meme",
-        "tag": "😂 脆上爆笑日常",
-        "title": "脆友神發言：下班後的狀態",
-        "content": "『我下班後不是在休息，我是在進行碳基生物的系統重啟。』\n躺在床上一動不動，連滑手機都嫌手痠，只想被當成植物好好澆水。",
+        "tag": "😂 脆上爆紅共鳴",
+        "title": "下班後的系統重啟",
+        "content": "『我下班後不是在偷懶，我是在進行碳基生物的系統格式化。』\n一進家門鞋子一脫，整個人像沒有骨頭的布丁一樣融化在床上一動不動，連伸手拿充電線都覺得那是奧運等級的極限運動。",
         "img": "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=600&auto=format&fit=crop&q=80"
     },
     {
         "type": "meme",
-        "tag": "😂 脆上共鳴廢文",
-        "title": "天蠍座的獨特省電模式",
-        "content": "外人眼中的天蠍：高冷、神祕、看透一切。\n私底下的天蠍：『好懶喔...想吃好吃的...想被摸頭...不想出門...』\n傲嬌只是保護色，內心其實是想要被無條件哄上天的小胚胎！",
-        "img": "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=600&auto=format&fit=crop&q=80"
+        "tag": "😂 脆上神比喻",
+        "title": "薪水在戶頭的停留時間",
+        "content": "5號發薪水：戶頭進帳感覺自己是全信義區最有錢的大老闆。\n6號繳房租、卡費、水電費、買日常用品：\n戶頭：『感謝您使用體驗版資金，試用期已結束，下次請早。』",
+        "img": ""
     },
     {
         "type": "meme",
-        "tag": "😂 人間真實迷因",
-        "title": "關於減肥與美食",
-        "content": "肚子餓時：『明天一定要開始少吃！』\n看到好吃的端上桌：『不能浪費食物，這是對廚師的尊重。』\n人生苦短，及時行樂，吃飽了才有力氣可愛！",
-        "img": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=80"
+        "tag": "😂 脆友感情哲學",
+        "title": "女生說的『隨便吃什麼都行』",
+        "content": "男友：『吃火鍋？』\n女生：『昨天才吃過。』\n男友：『吃義大利麵？』\n女生：『今天不想吃澱粉。』\n男友：『那妳想吃什麼？』\n女生：『就說都可以啊，你都不動腦！』\n（正解：直接把最好吃的那家甜點或排隊名店端到她面前就對了！）",
+        "img": ""
     },
-    # 隱藏 SSR 男友專屬兌換券彩蛋
+    {
+        "type": "meme",
+        "tag": "😂 脆上真實迷因",
+        "title": "天蠍女的極端切換",
+        "content": "在外工作時：氣場兩米八，公事公辦，眼神冷得像西伯利亞的暴風雪。\n回到男友身邊時：『肚子餓...要抱抱...幫我開瓶蓋...今天誰誰誰好煩喔你要幫我罵他！』\n外表是女王，骨子裡只想當個被哄成胚胎的專屬小公主🥰",
+        "img": ""
+    },
+    {
+        "type": "meme",
+        "tag": "😂 生活爆笑迷因",
+        "title": "關於晚上滑手機的時間黑洞",
+        "content": "11:00 PM：『再滑最後五分鐘脆就去睡覺。』\n11:05 PM：看到一個爆笑臘腸狗短影音。\n11:45 PM：開始研究北極熊的毛其實是透明的冷知識。\n01:30 AM：『我是誰？我在哪？明天早上八點要起床天啊！』",
+        "img": ""
+    },
+    {
+        "type": "meme",
+        "tag": "😂 脆上爆笑對話",
+        "title": "理智與食慾的拉扯",
+        "content": "理智：『晚上十點後吃宵夜會胖，而且對腸胃不好。』\n肚子：『可是鹽酥雞是熱的，熱的食物能溫暖心靈，心靈健康人就健康。』\n結論：『老闆，鹹酥雞一份魷魚一份，九層塔蒜頭多一點！』",
+        "img": ""
+    },
+    {
+        "type": "meme",
+        "tag": "😂 職場人間清醒",
+        "title": "工作的動力來源",
+        "content": "『我熱愛工作嗎？我不熱愛。但我熱愛花錢、熱愛吃好料、熱愛網購包裹到貨時拆箱的那一聲清脆膠帶聲。所以，今天也是為了包裹努力搬磚的一天！』",
+        "img": ""
+    },
+    {
+        "type": "meme",
+        "tag": "😂 脆友神吐槽",
+        "title": "出門前的儀式感",
+        "content": "女生說『我快好了，再五分鐘出門！』的意思是：\n衣服試了三套還沒選好、隱形眼鏡剛戴進一隻、電棒捲剛插上電加熱、手機電量 12% 剛接上線。\n男友請自覺坐回沙發，至少還有半小時安心發呆時間！",
+        "img": ""
+    },
+
+    # ─── ✨ 男友專屬隱藏彩蛋（SSR 系列） ───
     {
         "type": "ssr",
         "tag": "✨ 隱藏彩蛋・SSR 稀有卡",
-        "title": "🎟️ 男友無條件寵愛兌換券",
-        "content": "恭喜寶貝抽到極品 SSR！\n【兌換權利】：\n1. 憑此卡可隨時兌換男友專屬按摩 30 分鐘。\n2. 獲得無條件好喝飲品外送一杯。\n3. 免死金牌一張，享有無限被哄被抱抱權益！🥰",
+        "title": "🎟️ 男友無條件溫柔按摩券",
+        "content": "恭喜寶貝抽到極品 SSR！\n【兌換權利】：\n憑此卡找男友，可無條件兌換『肩頸或腿部舒壓按摩 30 分鐘』！\n附帶溫柔哄睡服務，永久有效、不可轉讓，隨時召喚即刻生效 🥰",
+        "img": ""
+    },
+    {
+        "type": "ssr",
+        "tag": "✨ 隱藏彩蛋・SSR 稀有卡",
+        "title": "🧋 男友專屬手搖飲外送券",
+        "content": "恭喜寶貝抽到限量 SSR！\n【兌換權利】：\n今天想喝什麼手搖飲、或是想喝熱熱甜甜的黑糖飲品，出示此截圖給男友，男友立刻奉上，寶貝只要張嘴負責喝就好！❤️",
+        "img": ""
+    },
+    {
+        "type": "ssr",
+        "tag": "✨ 隱藏彩蛋・SSR 稀有卡",
+        "title": "🛡️ 免死金牌與無限哄人券",
+        "content": "恭喜寶貝抽到頂級 SSR！\n【兌換權利】：\n今日不論心情多差、有多任性、想罵誰討厭鬼，男友全部站妳這邊，無條件陪妳同仇敵愾，把妳哄到心花怒放為止！🌸",
+        "img": ""
+    },
+    {
+        "type": "ssr",
+        "tag": "✨ 隱藏彩蛋・SSR 稀有卡",
+        "title": "🍗 深夜罪惡宵夜陪吃券",
+        "content": "恭喜寶貝抽到深夜 SSR！\n【兌換權利】：\n只要妳想吃，不管是鹽酥雞、滷味還是熱豆花，男友無條件陪吃，所有發胖熱量男友通通替妳吸收！🥰",
         "img": ""
     }
 ]
@@ -187,11 +311,14 @@ st.markdown("""
 <div style="text-align: center; margin-bottom: 12px;">
     <div style="font-size: 2.2rem;">🎁</div>
     <div style="color: #D6336C; font-size: 1.5rem; font-weight: 800;">LU 寶貝的解壓開心盲盒</div>
-    <div style="color: #8C6D77; font-size: 0.9rem; margin-top: 4px;">不開心就來抽一張！滿滿狗狗、貓貓與爆笑迷因 🌸</div>
+    <div style="color: #8C6D77; font-size: 0.9rem; margin-top: 4px;">不開心就來抽一張！滿滿臘腸狗、吸貓與爆笑脆文 🌸</div>
 </div>
 """, unsafe_allow_html=True)
 
-# 5. Session State 抽卡記錄
+# 5. Session State 抽卡記錄與防重複抽取機制
+if "drawn_indices" not in st.session_state:
+    st.session_state.drawn_indices = []
+
 if "current_card" not in st.session_state:
     st.session_state.current_card = random.choice(CARDS)
 
@@ -202,22 +329,37 @@ theme_filter = st.radio(
     horizontal=True
 )
 
-def pick_card():
+def pick_next_card():
+    # 根據選單篩選卡片池
     if "汪汪" in theme_filter:
-        pool = [c for c in CARDS if c["type"] in ["dog", "ssr"]]
+        candidates = [i for i, c in enumerate(CARDS) if c["type"] in ["dog", "ssr"]]
     elif "貓貓" in theme_filter:
-        pool = [c for c in CARDS if c["type"] in ["cat", "ssr"]]
+        candidates = [i for i, c in enumerate(CARDS) if c["type"] in ["cat", "ssr"]]
     elif "迷因" in theme_filter:
-        pool = [c for c in CARDS if c["type"] in ["meme", "ssr"]]
+        candidates = [i for i, c in enumerate(CARDS) if c["type"] in ["meme", "ssr"]]
     else:
-        pool = CARDS
-    return random.choice(pool)
+        candidates = list(range(len(CARDS)))
+    
+    # 防重複機制：排除最近抽過的
+    available = [i for i in candidates if i not in st.session_state.drawn_indices]
+    if not available:
+        # 全部都抽過一輪了，重置抽取記錄
+        st.session_state.drawn_indices = []
+        available = candidates
+    
+    selected_idx = random.choice(available)
+    st.session_state.drawn_indices.append(selected_idx)
+    # 最多記住最近 10 次，避免列表過長
+    if len(st.session_state.drawn_indices) > 12:
+        st.session_state.drawn_indices.pop(0)
+        
+    return CARDS[selected_idx]
 
 # 抽卡按鈕
 if st.button("✨ 點我開盲盒！抽取今日快樂 ✨"):
-    with st.spinner("正在為 LU 寶貝召喚快樂能量...🐾"):
-        time.sleep(0.3)
-        st.session_state.current_card = pick_card()
+    with st.spinner("正在為 LU 寶貝連線外太空搞笑能量...🐾"):
+        time.sleep(0.2)
+        st.session_state.current_card = pick_next_card()
     st.rerun()
 
 # 6. 開出的卡片展示
@@ -235,19 +377,19 @@ st.markdown(f"""
 if card.get("img"):
     st.image(card["img"], use_container_width=True)
 
-st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
 # 7. 脆（Threads）熱搜直達專區
-with st.expander("🌀 還是想滑脆？點這裡直達熱門爆笑話題", expanded=False):
-    st.caption("為寶貝過濾掉無聊吵架，精選 Threads 上最受歡迎的療癒話題直達車：")
+with st.expander("🌀 還是想去脆上晃晃？點這裡直達熱門療癒話題", expanded=False):
+    st.caption("為寶貝過濾掉無聊吵架，精選 Threads 上最受歡迎的搞笑與寵物傳送門：")
     st.markdown('<a href="https://www.threads.net/search?q=%E8%87%98%E8%85%B8%E7%8B%97&serp_type=default" target="_blank" class="threads-btn">🌭 前往 Threads 查看最新【臘腸狗】短影音</a>', unsafe_allow_html=True)
     st.markdown('<a href="https://www.threads.net/search?q=%E5%8F%AF%E6%84%9B%E5%B0%8F%E7%8B%97&serp_type=default" target="_blank" class="threads-btn">🐶 前往 Threads 查看最新【汪星人日常】</a>', unsafe_allow_html=True)
     st.markdown('<a href="https://www.threads.net/search?q=%E7%88%86%E7%AC%91%E8%BF%B7%E5%9B%A0&serp_type=default" target="_blank" class="threads-btn">😂 前往 Threads 查看最新【爆笑迷因廢文】</a>', unsafe_allow_html=True)
 
 # 男友專屬求救通道
 st.markdown("""
-<div style="text-align: center; margin-top: 20px;">
-    <a href="https://line.me/ti/p/3u_xwcKRUB" target="_blank" style="color: #D6336C; text-decoration: none; font-size: 0.9rem; font-weight: bold;">
+<div style="text-align: center; margin-top: 18px;">
+    <a href="https://line.me/ti/p/3u_xwcKRUB" target="_blank" style="color: #D6336C; text-decoration: none; font-size: 0.92rem; font-weight: bold;">
         💌 抽完了還是無聊？點此呼叫專屬男友陪妳聊聊 🥰
     </a>
 </div>
